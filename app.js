@@ -1,5 +1,5 @@
 const request = require('request');
-
+const express = require('express');
 
 getAddress = (address, callback) => {
     var encodedAddress = encodeURIComponent(address);
@@ -32,4 +32,14 @@ getAddress('Amsterdam, Netherlands', (errorMessage, results) => {
     } else {
         console.log(JSON.stringify(results, undefined, 2));
     }
+});
+
+
+
+app.get('/', (req, res) => {
+    res.send('hello express!');
+    // res.render('home.hbs', {
+    //     pageTitle: 'Home',
+    //     wellcomeMessage: 'Wellcome',
+    // });
 });
