@@ -1,5 +1,7 @@
 const request = require('request');
 const express = require('express');
+var app = express();
+const port = process.env.PORT || 3000;
 
 getAddress = (address, callback) => {
     var encodedAddress = encodeURIComponent(address);
@@ -42,4 +44,8 @@ app.get('/', (req, res) => {
     //     pageTitle: 'Home',
     //     wellcomeMessage: 'Wellcome',
     // });
+});
+
+app.listen(port, () => {
+    console.log(`Server up ${port}`);
 });
