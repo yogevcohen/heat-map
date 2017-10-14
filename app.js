@@ -35,9 +35,10 @@ hbs.registerHelper('getHeatMapFiles', () => {
 });
 
 app.get('/', (req, res) => {
-    res.render('home.hbs', {
-        pageTitle: 'Home',
-    });
+    res.send('dsds');
+    // res.render('home.hbs', {
+    //     pageTitle: 'Home',
+    // });
 });
 
 app.get('/viewheatmap/:file', (req, res) => {
