@@ -4,8 +4,8 @@ const hbs = require('hbs');
 const fs = require('fs');
 
 const config = require('./config.json');
-const calendarManager = require('./managers/calendar-manager.js');
-const listingManager = require( './managers/listing-manager.js');
+// const calendarManager = require('./managers/calendar-manager.js');
+// const listingManager = require( './managers/listing-manager.js');
 const demandCalculator = require( './managers/demand-calculator.js');
 
 var app = express();
