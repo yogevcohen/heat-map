@@ -4,9 +4,9 @@ const hbs = require('hbs');
 const fs = require('fs');
 
 const config = require('./config.json');
-//const calendarManager = require('./managers/calendar-manager');
-// const listingManager = require('./managers/listing-manager');
-// const demandCalculator = require('./managers/demand-calculator');
+const calendarManager = require(__dirname + '/managers/calendar-manager');
+const listingManager = require(__dirname + '/managers/listing-manager');
+const demandCalculator = require(__dirname + '/managers/demand-calculator');
 
 var app = express();
 const port = process.env.PORT || 3000;
@@ -81,7 +81,7 @@ app.get('/', (req, res) => {
 //         return;
 //     }
 //     var city = req.params.city;
-   
+
 //     res.render('building-heat-map.hbs', {
 //         city: city,
 //     });
