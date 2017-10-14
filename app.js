@@ -4,43 +4,42 @@ const hbs = require('hbs');
 const fs = require('fs');
 
 const config = require('./config.json');
-// const calendarManager = require('./managers/calendar-manager.js');
-// const listingManager = require( './managers/listing-manager.js');
+const calendarManager = require('./managers/calendar-manager.js');
+const listingManager = require( './managers/listing-manager.js');
 const demandCalculator = require( './managers/demand-calculator.js');
 
 var app = express();
 const port = process.env.PORT || 3000;
 
 
-// hbs.registerPartials(__dirname + '/views/partials');
-// app.set('view engine', 'hbs');
+hbs.registerPartials(__dirname + '/views/partials');
+app.set('view engine', 'hbs');
 
-// app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
-// hbs.registerHelper('getCurrentYear', () => {
-//     return new Date().getFullYear();
-// });
+hbs.registerHelper('getCurrentYear', () => {
+    return new Date().getFullYear();
+});
 
-// hbs.registerHelper('getMap', (fileName) => {
-//     var scr = `<script> function init(){initMap("${fileName}");} </script>\
-//     <script async defer src="https://maps.googleapis.com/maps/api/js?key=${config.googleMapAPi}&libraries=visualization&callback=init"></script>`
-//     return scr;
-// });
+hbs.registerHelper('getMap', (fileName) => {
+    var scr = `<script> function init(){initMap("${fileName}");} </script>\
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=${config.googleMapAPi}&libraries=visualization&callback=init"></script>`
+    return scr;
+});
 
-// hbs.registerHelper('getHeatMapFiles', () => {
-//     var menu = '';
-//     fs.readdirSync(__dirname).filter((file) => file.indexOf('heat') > 0).forEach(file => {
-//         menu += `<a href='/viewheatmap/${file}'>${file.slice(0, file.indexOf('heat') - 1)}</a>`;
-//     })
+hbs.registerHelper('getHeatMapFiles', () => {
+    var menu = '';
+    fs.readdirSync(__dirname).filter((file) => file.indexOf('heat') > 0).forEach(file => {
+        menu += `<a href='/viewheatmap/${file}'>${file.slice(0, file.indexOf('heat') - 1)}</a>`;
+    })
 
-//     return menu;
-// });
+    return menu;
+});
 
 app.get('/', (req, res) => {
-    res.send('dsds');
-    // res.render('home.hbs', {
-    //     pageTitle: 'Home',
-    // });
+    res.render('home.hbs', {
+        pageTitle: 'Home',
+    });
 });
 
 // app.get('/viewheatmap/:file', (req, res) => {
