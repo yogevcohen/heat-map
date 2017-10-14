@@ -3,10 +3,10 @@ const express = require('express');
 const hbs = require('hbs');
 const fs = require('fs');
 
-// const config = require('./config.json');
-// const calendarManager = require('./managers/calendar-manager');
-// const listingManager = require('./managers/listing-manager');
-// const demandCalculator = require('./managers/demand-calculator');
+const config = require('./config.json');
+const calendarManager = require('./managers/calendar-manager');
+const listingManager = require('./managers/listing-manager');
+const demandCalculator = require('./managers/demand-calculator');
 
 var app = express();
 const port = process.env.PORT || 3000;
