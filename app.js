@@ -1,49 +1,38 @@
 const request = require('request');
 const express = require('express');
+const fs = require('fs');
+const airbnbProvider = require('./providers/airbnb-provider');
 var app = express();
 const port = process.env.PORT || 3000;
 
-// getAddress = (address, callback) => {
-//     var encodedAddress = encodeURIComponent(address);
-//     const client_Id = '&client_id=3092nxybyb0otqw18e8nh5nty';
-//     request({
-//         url: `https://api.airbnb.com/v2/search_results?location=${encodedAddress}${client_Id}&_limit=1&_offset=1`,
-//         json: true
-//     }, (error, response, body) => {
+//Use for logging all routing
+app.use((req, res, next) => {
+    var now = new Date().toString();
+    const log = `${now}: ${req.method} ${req.url}`;
+    console.log(log);
+    fs.appendFile('server.log', log + '\n', (err) => {
+        console.log('Failed writing log file', err);
+    });
+    next();
+});
 
-
-//         if (response.statusMessage === "OK") {
-//             callback(undefined, {
-//                 search_results: body.search_results,
-//                 meta_data: body.meta_data,
-//             });
-//         } else {
-//             callback({
-//                 error_message:body.error_message,
-//                 error_details:body.error_details,
-//             });
-//             return;
-//         }
-
-//     });
-// }
-
-// getAddress('Amsterdam, Netherlands', (errorMessage, results) => {
-//     if (errorMessage) {
-//         console.log(errorMessage);
-//     } else {
-//         console.log(JSON.stringify(results, undefined, 2));
-//     }
-// });
 
 
 
 app.get('/', (req, res) => {
+    airbnbProvider.getAllListings('Amsterdam.heat', 25)
+        .then(values => {
+            if (fs.existsSync('Amsterdam.heat')) {
+                fs.unlinkSync('Amsterdam.heat');
+            }
+            fs.appendFile('Amsterdam.json', JSON.stringify(values, undefined, 2), (err) => {
+                console.log(err);
+            });
+            console.log(values);
+        })
+
+        .catch(console.error);
     res.send('hello express!');
-    // res.render('home.hbs', {
-    //     pageTitle: 'Home',
-    //     wellcomeMessage: 'Wellcome',
-    // });
 });
 
 app.listen(port, () => {
