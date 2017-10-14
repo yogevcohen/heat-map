@@ -7,7 +7,7 @@ const config = require('../config.json');
 getListing = async (city, offest) => {
     //Getting listing
     var encodedAddress = encodeURIComponent(city);
-    var url = `https://api.airbnb.com/v2/search_results?location=${encodedAddress}${config.clientId}&_limit=${config.listingLimit}&_offset=${offest}&currency=EUR`
+    var url = `https://api.airbnb.com/v2/search_results?location=${encodedAddress}&client_id=${config.clientId}&_limit=${config.listingLimit}&_offset=${offest}&currency=EUR`
     // console.log('on request', offest);
     return await axios.get(url).then((response) => {
         if (response.status !== 200) {

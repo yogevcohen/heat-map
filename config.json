@@ -1,8 +1,8 @@
 {
-    "clientId": "&client_id=3092nxybyb0otqw18e8nh5nty",
+    "clientId": "3092nxybyb0otqw18e8nh5nty",
     "totalListingOffsets": 25,
-    "listingLimit": 40,//40*25 = 1000 - the max supported by airbnb
-    "dateFormat": "YYYY-MM-DD",//used to get availble dates from airbnb
-    "monthsToCheckDemand": 2,//months to calculate demands for
-    "googleMapAPi":"AIzaSyAPDEkxpDKNBpFlaBHY1Ksi8ceJ3OuvqMs"
+    "listingLimit": 40, 
+    "dateFormat": "YYYY-MM-DD",
+    "monthsToCheckDemand": 2, 
+    "googleMapAPi": "AIzaSyAPDEkxpDKNBpFlaBHY1Ksi8ceJ3OuvqMs"
 }
