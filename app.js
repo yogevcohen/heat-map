@@ -2,10 +2,12 @@ const request = require('request');
 const express = require('express');
 const hbs = require('hbs');
 const fs = require('fs');
-const config = require('./config.json');
-const calendarManager = require('./managers/calendar-manager');
-const listingManager = require('./managers/listing-manager');
-const demandCalculator = require('./managers/demand-calculator');
+
+// const config = require('./config.json');
+// const calendarManager = require('./managers/calendar-manager');
+// const listingManager = require('./managers/listing-manager');
+// const demandCalculator = require('./managers/demand-calculator');
+
 var app = express();
 const port = process.env.PORT || 3000;
 
@@ -34,26 +36,26 @@ const port = process.env.PORT || 3000;
 //     return menu;
 // });
 
-// app.get('/', (req, res) => {
-//     //res.send('dsds');
-//     res.render('home.hbs', {
-//         pageTitle: 'Home',
+app.get('/', (req, res) => {
+    res.send('dsds');
+    // res.render('home.hbs', {
+    //     pageTitle: 'Home',
+    // });
+});
+
+// app.get('/viewheatmap/:file', (req, res) => {
+//     res.render('heatmap.hbs', {
+//         file: req.params.file,
 //     });
 // });
 
-app.get('/viewheatmap/:file', (req, res) => {
-    res.render('heatmap.hbs', {
-        file: req.params.file,
-    });
-});
-
-//Use for logging all routing
-app.use((req, res, next) => {
-    var now = new Date().toString();
-    const log = `${now}: ${req.method} ${req.url}`;
-    console.log(log);
-    next();
-});
+// //Use for logging all routing
+// app.use((req, res, next) => {
+//     var now = new Date().toString();
+//     const log = `${now}: ${req.method} ${req.url}`;
+//     console.log(log);
+//     next();
+// });
 
 
 
