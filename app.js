@@ -11,7 +11,7 @@ const demandCalculator = require( './managers/demand-calculator.js');
 var app = express();
 const port = process.env.PORT || 3000;
 
-
+//Regestring hbs helpers
 hbs.registerPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
 
@@ -36,6 +36,7 @@ hbs.registerHelper('getHeatMapFiles', () => {
     return menu;
 });
 
+//Regestring routes
 app.get('/', (req, res) => {
     res.render('home.hbs', {
         pageTitle: 'Home',
@@ -100,6 +101,7 @@ app.get('/createheatmap/:city', async (req, res) => {
         });
 });
 
+//Setting up server.
 app.listen(port, () => {
     console.log(`Server up ${port}`);
 });

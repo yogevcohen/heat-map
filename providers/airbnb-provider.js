@@ -5,9 +5,10 @@ const config = require('../config.json');
 
 
 getListing = async (city, offest) => {
+    //Getting listing
     var encodedAddress = encodeURIComponent(city);
-    var url = `https://api.airbnb.com/v2/search_results?location=${encodedAddress}${config.clientId}&_limit=40&_offset=${offest}&currency=EUR`
-    console.log('on request', offest);
+    var url = `https://api.airbnb.com/v2/search_results?location=${encodedAddress}${config.clientId}&_limit=${config.listingLimit}&_offset=${offest}&currency=EUR`
+    // console.log('on request', offest);
     return await axios.get(url).then((response) => {
         if (response.status !== 200) {
             throw new Error('Invalid request');
@@ -29,6 +30,8 @@ getListing = async (city, offest) => {
 }
 
 getCalendarDays = async (listing) => {
+    //Getting availble dates on a property 
+    //Updating the listing itself.
     var startDate = new Date();
     var startDateString = moment(startDate).format(config.dateFormat);
     var endDateMoment = moment(startDate);
@@ -45,10 +48,7 @@ getCalendarDays = async (listing) => {
             throw new Error('Unable to find listing', listing.id);
         }
         var totalUnavailbel = response.data.calendar_days.filter((day) => !day.available).length;
-
-        // totalDays = Math.max(totalDays,totalUnavailbel);
         var demand = response.data.calendar_days.filter((day) => !day.available).length / totalDays;
-        // console.log(demand);
         return demand;
 
     }).catch((e) => {
