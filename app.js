@@ -42,63 +42,63 @@ app.get('/', (req, res) => {
     });
 });
 
-// app.get('/viewheatmap/:file', (req, res) => {
-//     res.render('heatmap.hbs', {
-//         file: req.params.file,
-//     });
-// });
+app.get('/viewheatmap/:file', (req, res) => {
+    res.render('heatmap.hbs', {
+        file: req.params.file,
+    });
+});
 
-// //Use for logging all routing
-// app.use((req, res, next) => {
-//     var now = new Date().toString();
-//     const log = `${now}: ${req.method} ${req.url}`;
-//     console.log(log);
-//     next();
-// });
-
-
+//Use for logging all routing
+app.use((req, res, next) => {
+    var now = new Date().toString();
+    const log = `${now}: ${req.method} ${req.url}`;
+    console.log(log);
+    next();
+});
 
 
-// app.get('/files/:city', async (req, res) => {
-//     try {
-//         var obj = JSON.parse(fs.readFileSync(__dirname + `/${req.params.city}`, 'utf8'));
-//         res.send(obj);
-//     }
-//     catch (e) {
-//         console.log(e);
-//     }
-
-// });
 
 
-// app.get('/createheatmap/:city', async (req, res) => {
-//     console.log(req.params);
+app.get('/files/:city', async (req, res) => {
+    try {
+        var obj = JSON.parse(fs.readFileSync(__dirname + `/${req.params.city}`, 'utf8'));
+        res.send(obj);
+    }
+    catch (e) {
+        console.log(e);
+    }
 
-//     if (!req.params.city) {
-//         console.log('City was not provided.');
-//         res.send('Please provide city.');
-//         return;
-//     }
-//     var city = req.params.city;
+});
 
-//     res.render('building-heat-map.hbs', {
-//         city: city,
-//     });
 
-//     var allListing = await listingManager.getAllListings(city);
-//     calendarManager.getAllCalendarDays(allListing).then(
-//         (values) => {
-//             demandCalculator.calcHeatOnListings(values).then((listingWithHeat) => {
-//                 if (fs.existsSync(__dirname + `${city}.heat`)) {
-//                     fs.unlinkSync(`${city}.heat`);
-//                 }
-//                 fs.appendFile(`${city}.heat`, JSON.stringify(listingWithHeat, undefined, 2), (err) => {
-//                     console.log(err);
-//                 });
-//             });
+app.get('/createheatmap/:city', async (req, res) => {
+    console.log(req.params);
 
-//         });
-// });
+    if (!req.params.city) {
+        console.log('City was not provided.');
+        res.send('Please provide city.');
+        return;
+    }
+    var city = req.params.city;
+
+    res.render('building-heat-map.hbs', {
+        city: city,
+    });
+
+    var allListing = await listingManager.getAllListings(city);
+    calendarManager.getAllCalendarDays(allListing).then(
+        (values) => {
+            demandCalculator.calcHeatOnListings(values).then((listingWithHeat) => {
+                if (fs.existsSync(__dirname + `${city}.heat`)) {
+                    fs.unlinkSync(`${city}.heat`);
+                }
+                fs.appendFile(`${city}.heat`, JSON.stringify(listingWithHeat, undefined, 2), (err) => {
+                    console.log(err);
+                });
+            });
+
+        });
+});
 
 app.listen(port, () => {
     console.log(`Server up ${port}`);
