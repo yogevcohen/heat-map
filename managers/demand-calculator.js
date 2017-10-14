@@ -7,6 +7,6 @@ calcHeatOnListings = async (litingList) => {
     return litingList;
 }
 
-// module.exports = {
-//     calcHeatOnListings,
-// };
+module.exports = {
+    calcHeatOnListings,
+};
