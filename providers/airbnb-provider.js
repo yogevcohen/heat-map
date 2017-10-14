@@ -1,59 +1,63 @@
 const axios = require('axios');
+const moment = require('moment');
+const config = require('../config.json');
 
 
 
-getAllListings = (address, totalOffsets) => {
-    var offsets = [];
-    for (var i = 0; i < totalOffsets; i++) {
-        offsets.push(i * 40);
-    }
-
-    var promises = offsets.map(function (offset) {
-        return new Promise(function (resolve, reject) {
-            getListing('Amsterdam', offset).then((res1) => {
-                if (res1) {
-                    resolve(res1);
-                }
-            }).catch((e) => {
-                reject(e);
-            });
-        });
-    });
-
-    return Promise.all(promises);
-}
-
-getListing = (address, offest) => {
-
-    const client_Id = '&client_id=3092nxybyb0otqw18e8nh5nty';
-    var encodedAddress = encodeURIComponent(address);
-    var url = `https://api.airbnb.com/v2/search_results?location=${encodedAddress}${client_Id}&_limit=40&_offset=${offest}`
-    return axios.get(url).then((response) => {
+getListing = async (city, offest) => {
+    var encodedAddress = encodeURIComponent(city);
+    var url = `https://api.airbnb.com/v2/search_results?location=${encodedAddress}${config.clientId}&_limit=40&_offset=${offest}&currency=EUR`
+    console.log('on request', offest);
+    return await axios.get(url).then((response) => {
         if (response.status !== 200) {
-            throw new Error('Unable to find address');
+            throw new Error('Invalid request');
+        } else if (!response.data.search_results) {
+            throw new Error('Unable to find city');
         }
-        var litsingResults = [];
-        for (var i = 0; i < response.data.search_results.length; i++) {
-            const r = {
-                id: response.data.search_results[i].listing.id,
-                lat: response.data.search_results[i].listing.lat,
-                lng: response.data.search_results[i].listing.lng,
-            };
-            litsingResults.push(r);
-        }
+        return response.data.search_results.map((listing) => {
+            return item = {
+                id: listing.listing.id,
+                lat: listing.listing.lat,
+                lng: listing.listing.lng,
+                price: listing.pricing_quote.localized_nightly_price,
+            }
+        });
 
-        return {
-            index: offest,
-            list: litsingResults
-        };
     }).catch((e) => {
         console.log(e.message);
     });
+}
 
+getCalendarDays = async (listing) => {
+    var startDate = new Date();
+    var startDateString = moment(startDate).format(config.dateFormat);
+    var endDateMoment = moment(startDate);
+    endDateMoment.add(config.monthsToCheckDemand, 'months');
+    var endDateString = endDateMoment.format(config.dateFormat);
+    var totalDays = moment(endDateMoment).diff(startDate, 'days');
+
+    var url = `https://api.airbnb.com/v2/calendar_days?client_id=${config.clientId}&listing_id=${listing.id}&start_date=${startDateString}&end_date=${endDateString}`
+    // console.log('on request', listing.id);    
+    return await axios.get(url).then((response) => {
+        if (response.status !== 200) {
+            throw new Error('Invalid request');
+        } else if (!response.data.calendar_days) {
+            throw new Error('Unable to find listing', listing.id);
+        }
+        var totalUnavailbel = response.data.calendar_days.filter((day) => !day.available).length;
+
+        // totalDays = Math.max(totalDays,totalUnavailbel);
+        var demand = response.data.calendar_days.filter((day) => !day.available).length / totalDays;
+        // console.log(demand);
+        return demand;
+
+    }).catch((e) => {
+        console.log(e.message);
+    });
 }
 
 
 module.exports = {
-    getAllListings,
-    getListing
+    getListing,
+    getCalendarDays,
 };

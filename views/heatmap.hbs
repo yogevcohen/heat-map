@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <tile>{{pageTitle}}</tile>
+
+    <style>
+        body {
+            height: 100vh;
+            width: 100vw;
+            padding: 0;
+            margin: 0;
+        }
+
+        #heatmap {
+            height: 90%;
+            width: 90%;
+        }
+    </style>
+</head>
+
+<body>
+    {{> header}}
+    <div id="heatmap"></div>
+    <script>
+        var map, heatmap;
+        function initMap(city) {
+            fetch('/files/' + city)
+                .then(response => response.json())
+                .then(points => points.map(p => {
+                    return {
+                        location: new google.maps.LatLng(p.lat, p.lng),
+                        weight: p.heat
+                    }
+                }))
+                .then(pts => {
+                    map = new google.maps.Map(document.getElementById('heatmap'), {
+                        zoom: 13,
+                        center: pts[0].location,
+                        mapTypeId: 'satellite'
+
+                    });
+                    heatmap = new google.maps.visualization.HeatmapLayer({
+                        data: pts,
+                        map: map
+                    });
+
+                });
+        }
+    </script>
+    {{{getMap file}}}
+</body>
+{{> footer}}
+
+</html>

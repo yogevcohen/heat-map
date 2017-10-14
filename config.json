@@ -1,0 +1,8 @@
+{
+    "clientId": "&client_id=3092nxybyb0otqw18e8nh5nty",
+    "totalListingOffsets": 25,
+    "listingLimit": 40,
+    "dateFormat": "YYYY-MM-DD",
+    "monthsToCheckDemand": 2,
+    "googleMapAPi":"AIzaSyAPDEkxpDKNBpFlaBHY1Ksi8ceJ3OuvqMs"
+}
