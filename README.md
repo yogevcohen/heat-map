@@ -7,3 +7,4 @@ Airbnb heat map craetor:
 4. Click on city name to view it's heat map.
 5. You can navigate between cities by clicking on it in the nav bar.
 6. App is hosted in Heroku: https://whispering-caverns-65216.herokuapp.com/
+7. todo: need to improve demand using property reviews
