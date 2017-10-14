@@ -4,9 +4,9 @@ const hbs = require('hbs');
 const fs = require('fs');
 
 const config = require('./config.json');
-const calendarManager = require(__dirname + '/managers/calendar-manager');
-const listingManager = require(__dirname + '/managers/listing-manager');
-const demandCalculator = require(__dirname + '/managers/demand-calculator');
+const calendarManager = require('./managers/calendar-manager.js');
+const listingManager = require( './managers/listing-manager.js');
+const demandCalculator = require( './managers/demand-calculator.js');
 
 var app = express();
 const port = process.env.PORT || 3000;
