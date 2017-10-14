@@ -4,7 +4,7 @@ const hbs = require('hbs');
 const fs = require('fs');
 
 const config = require('./config.json');
-// const calendarManager = require('./managers/calendar-manager');
+const calendarManager = require('./managers/calendar-manager');
 // const listingManager = require('./managers/listing-manager');
 // const demandCalculator = require('./managers/demand-calculator');
 
